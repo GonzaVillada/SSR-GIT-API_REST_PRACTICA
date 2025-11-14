@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Tareas</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://kit.fontawesome.com/b591f34f14.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1>📝 Lista de Tareas (SSR con Node.JS + PHP API REST)</h1>
+
+  <div class="listas">
+    <!-- LISTA DE TAREAS PENDIENTES -->
+    <div>
+      <h2>Tareas Pendientes</h2>
+      <ul id="pendientes">
+        <% tareas.filter(t => !t.completada).forEach(t => { %>
+          <li id="tarea-<%= t.id %>">
+            <input 
+              type="checkbox" 
+              onchange="toggleCompletada(<%= t.id %>, this)"
+              <%= t.completada ? 'checked' : '' %>
+            >
+            <span class="nombre-tarea"><%= t.nombre %></span>
+            <button class="btn-eliminar" onclick="eliminarTarea(<%= t.id %>)">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <!-- LISTA DE TAREAS COMPLETADAS -->
+    <div>
+      <h2>Tareas Completadas</h2>
+      <ul id="completadas">
+        <% tareas.filter(t => t.completada).forEach(t => { %>
+          <li id="tarea-<%= t.id %>">
+            <input 
+              type="checkbox" 
+              checked 
+              onchange="toggleCompletada(<%= t.id %>, this)"
+            >
+            <span class="nombre-tarea"><%= t.nombre %></span>
+            <button class="btn-eliminar" onclick="eliminarTarea(<%= t.id %>)">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FORMULARIO PARA AGREGAR TAREAS -->
+  <form id="formTarea">
+    <input type="text" id="nuevaTarea" placeholder="Nueva tarea" required>
+    <button type="submit">Agregar</button>
+  </form>
+
+  <script src="/script.js"></script>
+</body>
+</html>
